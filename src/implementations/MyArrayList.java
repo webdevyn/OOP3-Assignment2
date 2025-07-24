@@ -41,22 +41,24 @@ public class MyArrayList<E> implements ListADT<E> {
 
     @Override
     public boolean add(int index, E toAdd) throws NullPointerException, IndexOutOfBoundsException {
+        if (toAdd == null) {
+            throw new NullPointerException();
+        }
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException();
         }
         if (size == elements.length) {
             resize();
         }
-
         //Start at end of list and decrement until you hit the index you want to insert at
         for (int i = size; i  > index; i-- ) {
             //Shift the elements by taking the elements and moving them one position up
             elements[i] = elements[i-1];
-            elements[index] = toAdd;
-            size++;
         }
-
-        return false;
+        //Insert the element at the index
+        elements[index] = toAdd;
+        size++;
+        return true;
     }
 
     @Override
