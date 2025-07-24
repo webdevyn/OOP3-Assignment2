@@ -3,6 +3,10 @@ package implementations;
 import utilities.Iterator;
 import utilities.ListADT;
 
+import java.util.Arrays;
+import java.util.NoSuchElementException;
+
+@SuppressWarnings("unchecked")
 public class MyArrayList<E> implements ListADT<E> {
     //Constants
     private static final int DEFAULT_CAPACITY = 10;
@@ -16,8 +20,17 @@ public class MyArrayList<E> implements ListADT<E> {
         elements = (E[]) new Object[DEFAULT_CAPACITY];
     }
 
+    //Resize method to use when necessary
+    private void resize() {
+        int newCapacity = elements.length * 2;
+        E[] biggerArray = (E[]) new Object[newCapacity];
+        Arrays.copyOf(elements, newCapacity);
+        elements = biggerArray;
+    }
+
     @Override
     public int size() {
+        System.out.println("The size is: " + size);
         return size;
     }
 
@@ -28,11 +41,28 @@ public class MyArrayList<E> implements ListADT<E> {
 
     @Override
     public boolean add(int index, E toAdd) throws NullPointerException, IndexOutOfBoundsException {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (size == elements.length) {
+            resize();
+        }
+
+        //Start at end of list and decrement until you hit the index you want to insert at
+        for (int i = size; i  > index; i-- ) {
+            //Shift the elements by taking the elements and moving them one position up
+            elements[i] = elements[i-1];
+            elements[index] = toAdd;
+            size++;
+        }
+
         return false;
     }
 
     @Override
     public boolean add(E toAdd) throws NullPointerException {
+        elements[size] = toAdd;
+        size++;
         return false;
     }
 
@@ -84,5 +114,28 @@ public class MyArrayList<E> implements ListADT<E> {
     @Override
     public Iterator<E> iterator() {
         return null;
+    }
+
+    //Implement Iterator class
+    private class ArrayListIterator implements Iterator<E> {
+        private int currentIndex;
+
+        @Override
+        public boolean hasNext() {
+            if(currentIndex < size) {
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public E next() throws NoSuchElementException {
+            if(currentIndex < size) {
+                E element = (E) elements[currentIndex];
+                currentIndex++;
+                return element;
+            }
+            return null;
+        }
     }
 }
