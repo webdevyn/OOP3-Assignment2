@@ -350,11 +350,11 @@ public class ArrayListTest
 		}
 	}
 	
-//	/**
-//	 * Test method for
-//	 * {@link implementations.MyArrayList#addAll(utilities.List)}
-//	 * to add a DLL to the list.
-//	 */
+	/**
+	 * Test method for
+	 * {@link implementations.MyArrayList#addAll(utilities.List)}
+	 * to add a DLL to the list.
+	 */
 //	@Test
 //	public void testAddAll_DLL()
 //	{

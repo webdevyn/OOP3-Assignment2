@@ -97,7 +97,17 @@ public class MyArrayList<E> implements ListADT<E> {
 
     @Override
     public E remove(int index) throws IndexOutOfBoundsException {
-        return null;
+        if  (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        E removedElement = elements[index];
+
+        for (int i = index; i < size - 1; i++) {
+            elements[i] = elements[i + 1];
+        }
+        elements[size - 1] = null;
+        size--;
+        return removedElement;
     }
 
     @Override
