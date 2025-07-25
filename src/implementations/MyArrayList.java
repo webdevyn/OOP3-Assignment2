@@ -28,7 +28,6 @@ public class MyArrayList<E> implements ListADT<E> {
 
     @Override
     public int size() {
-        System.out.println("The size is: " + size);
         return size;
     }
 
