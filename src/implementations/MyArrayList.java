@@ -117,26 +117,32 @@ public class MyArrayList<E> implements ListADT<E> {
             throw new NullPointerException();
         }
         for (int i = 0; i < size; i++) {
-            removedElement = elements[i];
-
-            //need to shift elements
-            for (int j = i + 1; j < size; j++) {
-                if (elements[i] == elements[j]) {
-                    elements[i] = elements[j];
+            if (toRemove.equals(elements[i])) {
+                removedElement = elements[i];
+                //need to shift elements
+                for (int j = i; j < size - 1; j++) {
+                    elements[j] = elements[j + 1];
                 }
-
                 elements[size - 1] = null;
                 size--;
                 return  removedElement;
             }
-
         }
         return null;
     }
 
     @Override
     public E set(int index, E toChange) throws NullPointerException, IndexOutOfBoundsException {
-        return null;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (toChange == null) {
+            throw new NullPointerException();
+        }
+        E previousElement = elements[index];
+        elements[index] = toChange;
+
+        return previousElement;
     }
 
     @Override
@@ -162,12 +168,28 @@ public class MyArrayList<E> implements ListADT<E> {
 
     @Override
     public E[] toArray(E[] toHold) throws NullPointerException {
-        return null;
+        if  (toHold == null) {
+            throw new NullPointerException();
+        }
+
+        if (toHold.length < size) {
+            return (E[]) Arrays.copyOf(elements, size, toHold.getClass());
+        }
+
+        System.arraycopy(elements, 0, toHold, 0, size);
+
+        if  (toHold.length > size) {
+            toHold[size] = null;
+        }
+
+        return toHold;
     }
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        Object[] newArray = new Object[size];
+        System.arraycopy(elements, 0, newArray, 0, size);
+        return newArray;
     }
 
     @Override
