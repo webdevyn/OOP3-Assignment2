@@ -34,7 +34,8 @@ public class MyArrayList<E> implements ListADT<E> {
 
     @Override
     public void clear() {
-
+        elements = (E[]) new Object[DEFAULT_CAPACITY];
+        size = 0;
     }
 
     @Override
@@ -101,6 +102,25 @@ public class MyArrayList<E> implements ListADT<E> {
 
     @Override
     public E remove(E toRemove) throws NullPointerException {
+        E removedElement;
+        if (toRemove == null) {
+            throw new NullPointerException();
+        }
+        for (int i = 0; i < size; i++) {
+            removedElement = elements[i];
+
+            //need to shift elements
+            for (int j = i + 1; j < size; j++) {
+                if (elements[i] == elements[j]) {
+                    elements[i] = elements[j];
+                }
+
+                elements[size - 1] = null;
+                size--;
+                return  removedElement;
+            }
+
+        }
         return null;
     }
 
@@ -111,11 +131,22 @@ public class MyArrayList<E> implements ListADT<E> {
 
     @Override
     public boolean isEmpty() {
+        if (size == 0) {
+            return true;
+        }
         return false;
     }
 
     @Override
     public boolean contains(E toFind) throws NullPointerException {
+        if  (toFind == null) {
+            throw new NullPointerException();
+        }
+        for (int i = 0; i < size; i++) {
+            if (elements[i].equals(toFind)) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -148,6 +179,9 @@ public class MyArrayList<E> implements ListADT<E> {
 
         @Override
         public E next() throws NoSuchElementException {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
             if(currentIndex < size) {
                 E element = (E) elements[currentIndex];
                 currentIndex++;
