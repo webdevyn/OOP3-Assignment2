@@ -23,9 +23,7 @@ public class MyArrayList<E> implements ListADT<E> {
     //Resize method to use when necessary
     private void resize() {
         int newCapacity = elements.length * 2;
-        E[] biggerArray = (E[]) new Object[newCapacity];
-        Arrays.copyOf(elements, newCapacity);
-        elements = biggerArray;
+        elements = Arrays.copyOf(elements, newCapacity);
     }
 
     @Override
@@ -63,19 +61,37 @@ public class MyArrayList<E> implements ListADT<E> {
 
     @Override
     public boolean add(E toAdd) throws NullPointerException {
+        if (toAdd == null) {
+            throw new NullPointerException();
+        }
+        if (size == elements.length) {
+            resize();
+        }
         elements[size] = toAdd;
         size++;
-        return false;
+        return true;
     }
 
     @Override
     public boolean addAll(ListADT<? extends E> toAdd) throws NullPointerException {
-        return false;
+        if (toAdd == null) {
+            throw new NullPointerException();
+        }
+
+        Iterator<? extends E> iterator = toAdd.iterator();
+        while (iterator.hasNext()) {
+            add(iterator.next());
+        }
+
+        return true;
     }
 
     @Override
     public E get(int index) throws IndexOutOfBoundsException {
-        return null;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        return elements[index];
     }
 
     @Override
@@ -115,7 +131,7 @@ public class MyArrayList<E> implements ListADT<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return null;
+        return new ArrayListIterator();
     }
 
     //Implement Iterator class
