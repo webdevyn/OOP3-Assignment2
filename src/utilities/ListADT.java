@@ -16,7 +16,7 @@ public interface ListADT<E> extends Serializable
 {
 	/**
 	 * The size method will return the current element count contained in the list.
-	 * 
+	 *
 	 * @return The current element count.
 	 */
 	public int size();
@@ -105,15 +105,15 @@ public interface ListADT<E> extends Serializable
 	 * list does not contain the element, it is unchanged. More formally, removes
 	 * the element with the lowest index <code>i</code> such that
 	 * <code>o.equals(get(i))</code> (if such an element exists).
-	 * 
+	 *
 	 * @param toRemove The element to be removed from this list.
 	 * @return The element which is being removed, or null if the list does not
-	 *         contain the element.
+	 * contain the element.
 	 * @throws NullPointerException If the specified element is <code>null</code>
 	 *                              and the list implementation does not support
 	 *                              having <code>null</code> elements.
 	 */
-	public E remove( E toRemove ) throws NullPointerException;
+	public E remove(E toRemove) throws NullPointerException;
 
 	/**
 	 * Replaces the element at the specified position in this list with the
