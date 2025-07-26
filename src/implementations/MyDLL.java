@@ -156,7 +156,7 @@ public class MyDLL<E> implements ListADT<E> {
 
     @Override
     public boolean isEmpty() {
-        if (tail == null) {
+        if (size == 0) {
             return true;
         }
         return false;
