@@ -175,12 +175,38 @@ public class MyDLL<E> implements ListADT<E> {
             throw new  NullPointerException();
         }
 
+        MyDLLNode<E> currentNode = head;
+
+        while (currentNode != null) {
+            if (toRemove.equals(currentNode.getElement())) {
+                E removedNode = currentNode.getElement();
+
+                MyDLLNode<E> previousNode = currentNode.getPrev();
+                MyDLLNode<E> nextNode = currentNode.getNext();
+
+                if  (previousNode != null) {
+                    previousNode.setNext(nextNode);
+                }
+                else {
+                    head = nextNode;
+                }
+                if (nextNode != null) {
+                    nextNode.setPrev(previousNode);
+                }
+                else {
+                    tail = previousNode;
+                }
+                size--;
+                return removedNode;
+            }
+            currentNode = currentNode.getNext();
+        }
         return null;
     }
 
     @Override
     public E set(int index, E toChange) throws NullPointerException, IndexOutOfBoundsException {
-        if (index < 0 || index > size) {
+        if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
         if (toChange == null) {
@@ -222,6 +248,12 @@ public class MyDLL<E> implements ListADT<E> {
 
     @Override
     public E[] toArray(E[] toHold) throws NullPointerException {
+        if (toHold == null){
+            throw new  NullPointerException();
+        }
+        if   (toHold.length < size){
+
+        }
         return null;
     }
 
