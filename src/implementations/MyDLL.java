@@ -111,7 +111,7 @@ public class MyDLL<E> implements ListADT<E> {
 
     @Override
     public E get(int index) throws IndexOutOfBoundsException {
-        if  (index < 0 || index > size) {
+        if  (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
 
@@ -126,11 +126,55 @@ public class MyDLL<E> implements ListADT<E> {
 
     @Override
     public E remove(int index) throws IndexOutOfBoundsException {
-        return null;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        MyDLLNode<E> removedNode;
+
+        //remove from beginning
+        if (index == 0) {
+            removedNode = head;
+            head = head.getNext();
+            if (head != null) {
+                head.setPrev(null);
+            }
+            else {
+                tail = null;
+            }
+        }
+        //remove from end
+        else if (index == size - 1) {
+            removedNode = tail;
+            tail = tail.getPrev();
+            if (tail != null) {
+                tail.setNext(null);
+            }
+            else {
+                head = null;
+            }
+        }
+        else {
+            MyDLLNode<E> currentNode = head;
+            for (int i = 0; i < index; i++) {
+                currentNode = currentNode.getNext();
+            }
+            removedNode = currentNode;
+            MyDLLNode<E> previousNode = currentNode.getPrev();
+            MyDLLNode<E> nextNode = currentNode.getNext();
+            previousNode.setNext(nextNode);
+            nextNode.setPrev(previousNode);
+            //no more pointers to removed node
+        }
+        size--;
+        return removedNode.getElement();
     }
 
     @Override
     public E remove(E toRemove) throws NullPointerException {
+        if (toRemove == null) {
+            throw new  NullPointerException();
+        }
+
         return null;
     }
 
